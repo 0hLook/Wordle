@@ -1,0 +1,202 @@
+:root {
+    --color-light-blue: #91dce4;
+    --color-black: #292626;
+    --color-green: #3be892;
+    --color-red: #de4b4b;
+    --color-yellow: #eaee77;
+    --color-light1: #f2ece6;
+    --color-light2: #e6eef2;
+}
+  
+html { box-sizing: border-box; } *, *:before, *:after { box-sizing: inherit; }
+  
+body {
+    background: var(--color-light-blue);
+    color: var(--color-black);
+
+    min-height: 100vh;
+    margin: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 3rem;
+}
+  
+h1 {
+    margin: 10px 0;
+    padding: 0;
+    text-align: center;
+}
+  
+main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+  
+.toaster {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    pointer-events: none;
+    width: fit-content;
+}
+  
+.toaster ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+  
+.toast {
+    background: var(--color-black);
+    border-radius: 4px;
+    color: var(--color-light-blue);
+    padding: 1rem;
+    font-weight: bold;
+    text-align: center;
+    opacity: 1;
+    transition: opacity 300ms cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+  
+.fade { opacity: 0; }
+  
+#board, #keyboard {
+    display: flex;
+    flex-direction: column;
+    gap: 6px; /* Between each row */
+    text-transform: uppercase;
+}
+  
+#board ul, #keyboard ul {
+    display: flex;
+    list-style: none;
+    gap: 6px; /* Between each cell */
+    padding: 0;
+    margin: 0;
+}
+  
+[data-status], [data-key] {
+    border: 2px solid var(--color-light1);
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 2rem;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 4rem;
+    width: 4rem;
+    border-radius: 0.5rem;
+    background-color: var(--color-light2);
+
+    user-select: none;
+}
+  
+#keyboard {
+    gap: 8px; /* Between each row */
+    padding-bottom: 10px;
+}
+  
+#keyboard ul { justify-content: center; }
+  
+[data-key] {
+    background: var(--color-light2);
+    border: none;
+    border-radius: 4px;
+  
+    font-size: 1rem;
+  
+    height: 3.8rem;
+    width: 2.8rem;
+  
+    cursor: pointer;
+  
+    transition: all .3s ease-in-out;
+  }
+  
+[data-key='Enter'] {
+    width: 7rem;
+}
+  
+[data-key='Backspace'] {
+    width: 7rem;
+}
+  
+[data-status='filled'] {
+    border: 1px solid var(--color-light2); 
+}
+
+[data-status='valid'] {
+    background: var(--color-green); border: 1px solid var(--color-green); 
+}
+
+[data-status='invalid'] {
+    background: var(--color-yellow); border: 1px solid var(--color-yellow); 
+}
+
+[data-status='none'] { 
+    background: var( --color-red); border: 1px solid var(--color-red); 
+}
+  
+[data-animation='pop'] { 
+    animation: PopIn 100ms; 
+}
+  
+@keyframes PopIn {
+from {
+    transform: scale(0.7);
+    opacity: 0.1;
+}
+40% {
+    transform: scale(1.2);
+    opacity: 0.95;
+}
+}
+  
+
+[data-animation='flip'] {
+    animation: FadeInInstant 0.3s linear;
+  }
+  
+@keyframes FadeInInstant {
+from {
+    opacity: 0;
+}
+to {
+    opacity: 1;
+}
+}
+
+/* Remove per-box delay */
+#board ul[data-row] li {
+animation-delay: 0s !important;
+transition-delay: 0s !important;
+}
+  
+[data-animation='invalid']  { 
+animation: Shake 600ms; 
+}
+
+@keyframes Shake {
+11%, 88% {
+    transform: translateX(-1px);
+}
+19%, 79% {
+    transform: translateX(2px);
+}
+29%, 49%, 69% {
+    transform: translateX(-4px);
+}
+39%, 59% {
+    transform: translateX(4px);
+}
+}
