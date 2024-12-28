@@ -1,4 +1,4 @@
-import { getNewWord } from './generator.js';
+import { getNewWord, showMessage } from './generator.js';
 import { realDictionary } from './dictionary.js';
 import { generateBoard } from './board.js';
 
@@ -36,19 +36,6 @@ const init = () => {
   keyboard.addEventListener('click', keyClick);
   gameBoard.addEventListener('animationend', event => event.target.setAttribute('data-animation', 'idle'));
 };
-
-const showMessage = (message, time) => {
-  const toast = document.createElement('li');
-
-  toast.textContent = message;
-  toast.className = 'toast';
-
-  document.querySelector('.toaster ul').prepend(toast);
-  
-  setTimeout(() => toast.classList.add('fade'), time);
-
-  toast.addEventListener('transitionend', (event) => event.target.remove());
-}
 
 const restartGame = () => {
     // Clear the board and keyboard
@@ -132,8 +119,6 @@ const checkGuess = (guess, word) => {
     }
 };
 
-
-
 const endGame = () => {
     document.removeEventListener('keydown', onKeyPress);
     keyboard.removeEventListener('click', onKeyClick);
@@ -153,7 +138,7 @@ const onKeyClick = (event) => {
 }
 
 const onKeyPress = (key) => {
-  // Don't allow more then 6 attempts to guess the word
+  
   if (guessHistory.length >= numAttempts) {
     return;
   }
@@ -166,12 +151,10 @@ const onKeyPress = (key) => {
 
   if (key === bKey) {
     if (targetColumn === null) {
-      // Get the last column of the current active row
-      // as we are on the last column
+      // Get the last column of the current active row.
       targetColumn = currentRow.querySelector('li:last-child');
     } else {
-      // Find the previous column, otherwise get the first column
-      // so we always have have a column to operate on
+      // Find the previous column or just get the first column.
       targetColumn = targetColumn.previousElementSibling ?? targetColumn;
     }
 
@@ -201,15 +184,13 @@ const onKeyPress = (key) => {
     return;
   }
 
-  // We have reached the 5 letter limit for the guess word
   if (currentWord.length >= 5) {
     return;
   }
 
   const upperCaseLetter = key.toUpperCase();
 
-  // Add the letter to the next empty column
-  // if the provided letter is between A-Z
+  // Add letter to the next empty column, if the provided letter is between A-Z
   if (/^[A-Z]$/.test(upperCaseLetter)) {
     currentWord += upperCaseLetter;
 
@@ -219,6 +200,4 @@ const onKeyPress = (key) => {
   }
 }
 
-// Call the initialization function when the DOM is loaded to get
-// everything setup and the game responding to user actions.
 document.addEventListener('DOMContentLoaded', init);

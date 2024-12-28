@@ -38,3 +38,4 @@ export const generateBoard = (board, rows = 6, columns = 5, keys = [], keyboard 
     board.lastChild.append(backspaceKey);
   }
 };
+
